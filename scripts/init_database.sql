@@ -82,5 +82,13 @@ create table bronze.erp_px_cat_g1v2 (
 	subcat nvarchar (50),
 	maintenance nvarchar(50)
 );
+--- first bulk load of cust_info
+bulk insert bronze.crm_cust_info
+From 'C:\Users\Deepika\Desktop\cust_info.csv'
+with (
+	Firstrow = 2,
+	fieldterminator = ',',
+	tablock
+);
 
 

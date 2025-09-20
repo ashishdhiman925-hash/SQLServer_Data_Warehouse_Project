@@ -240,7 +240,7 @@ create table silver.erp_px_cat_g1v2 (
 );
 
 
------- Data Cleaning, duplicates and loading to silver layer Script.
+------ Silver load script 1 - Data Cleaning, duplicates and loading to silver layer Script.
 insert into silver.crm_cust_info (
 	cst_id,
 	cst_key,

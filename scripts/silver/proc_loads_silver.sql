@@ -1,0 +1,1 @@
+---- This is Store Procedure that will run to load the ETL data from bronze layer to the silver layer , so this is the load

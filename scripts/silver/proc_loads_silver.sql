@@ -1,5 +1,5 @@
 ---- This is Store Procedure that will run to load the ETL data from bronze layer to the silver layer , so this is the load
---exec silver.load_silver
+-- to run this please use exec silver.load_silver
 create or alter procedure silver.load_silver as
 begin
 ------ Silver load script 1 - Data Cleaning, duplicates and loading to silver layer Script.

@@ -1,5 +1,5 @@
 --- first bulk load of data into Store Prodecure , this SP name is bronze.load_brone, you can exe it by exec bronze.load_brone
-
+--- To use this exec bronze.load_bronze
 Create or alter procedure bronze.load_bronze as
 Begin
 	declare @start_time datetime , @end_time datetime;

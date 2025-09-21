@@ -372,3 +372,21 @@ end as gen
 from bronze.erp_cust_az12
 
 ---select * from silver.erp_cust_az12
+
+
+------ Silver load script 2 : ERP - Data Cleaning, duplicates and loading to silver layer Script.
+
+insert into silver.erp_loc_a101 
+(cid,cntry)
+select 
+replace(cid, '-', '') cid,
+case when trim(cntry) = 'DE' then 'Germany'
+	 when trim(cntry) in ('US','USA') then 'United States'
+	 when trim(cntry) = '' or cntry is null then 'n/a'
+	 else trim(cntry)
+end as cntry
+from bronze.erp_loc_a101 --where replace(cid, '-', '') not in 
+--select * from bronze.erp_loc_a101
+--(select cst_key from silver.crm_cust_info)
+-- data standarization consistency 
+--select distinct cntry as old_cntry,

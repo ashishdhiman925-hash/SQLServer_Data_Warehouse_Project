@@ -390,3 +390,15 @@ from bronze.erp_loc_a101 --where replace(cid, '-', '') not in
 --(select cst_key from silver.crm_cust_info)
 -- data standarization consistency 
 --select distinct cntry as old_cntry,
+
+
+------ Silver load script 3 : ERP - Data Cleaning, duplicates and loading to silver layer Script.
+
+insert into silver.erp_px_cat_g1v2
+(id, cat, subcat, maintenance)
+select 
+	id,
+	cat,
+	subcat,
+	maintenance
+from bronze.erp_px_cat_g1v2

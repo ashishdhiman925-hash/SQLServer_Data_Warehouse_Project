@@ -354,3 +354,21 @@ from bronze.crm_sales_details
 --where sls_ord_num != trim(sls_ord_num)
 --where sls_cust_id not in (select cst_id from silver.crm_cust_info)
 --select * from silver.crm_sales_details
+
+------ Silver load script 1 : ERP - Data Cleaning, duplicates and loading to silver layer Script.
+
+insert into silver.erp_cust_az12 (cid, bdate, gen)
+select 
+case when cid like 'NAS%' then substring(cid,4,len(cid))
+	else cid
+end cid,
+case when bdate > getdate() then null 
+	 else bdate
+end as bdate,
+	case when upper(trim(gen)) in ('F', 'FEMALE') then 'FEMALE'	
+	when upper(trim(gen)) in ('M', 'MALE') then 'MALE'	
+	else 'n/a'
+end as gen
+from bronze.erp_cust_az12
+
+---select * from silver.erp_cust_az12

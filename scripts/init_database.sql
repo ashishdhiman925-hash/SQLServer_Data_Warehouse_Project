@@ -765,7 +765,7 @@ begin
 END
 
 
-----------------------------------Gold View 1 -----------------------------------------------------------------
+----------------------------------Gold View 1 : Build dimension customer : Dimension is information but not transaction or date info -----------------------------------------------------------------
 --Select cst_id, count(*) from (
 	
 	Create view gold.dim_customers AS

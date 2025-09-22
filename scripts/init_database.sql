@@ -763,3 +763,30 @@ begin
 		maintenance
 	from bronze.erp_px_cat_g1v2
 END
+
+
+----------------------------------Gold View 1 -----------------------------------------------------------------
+--Select cst_id, count(*) from (
+	
+	Create view gold.dim_customers AS
+	Select 
+		row_number() over (order by cst_id) as customer_key,	
+		ci.cst_id as customer_id,
+		ci.cst_key as customer_number,
+		ci.cst_firstname as first_name,
+		ci.cst_lastname as last_name,
+		la.cntry as country,
+		ci.cst_material_status as marital_status,
+		case when ci.cst_gndr != 'n/a' then ci.cst_gndr -- CRM is the master table
+			else coalesce(ca.gen,'n/a')
+		end as gender,
+		ca.bdate as birthdate,
+		ci.cst_create_date as create_date	
+	from silver.crm_cust_info as ci
+	left join silver.erp_cust_az12 ca
+	on  ci.cst_key = ca.cid
+	left join silver.erp_loc_a101 la
+	on  ci.cst_key = la.cid	
+--)t group by cst_id
+--having count(*) > 1
+--select * from gold.dim_customers

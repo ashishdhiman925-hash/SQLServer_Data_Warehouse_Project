@@ -834,3 +834,64 @@ left join gold.dim_products pr
 on sd.sls_prd_key = pr.product_number
 left join gold.dim_customers cu
 on sd.sls_cust_id = cu.customer_id
+
+
+
+-------------------------------adavanced analytics for report----------------------------------------
+select 
+	year(order_date) as order_year,
+	month(order_date) as order_month,
+	sum(sales_amount) as total_sales,
+	count(distinct customer_key) as total_customers,
+	SUM(quantity) as total_quantity
+from gold.fact_sales
+where order_date is not null 
+group by year(order_date),month(order_date) 
+order by year(order_date),month(order_date) ;
+-------------------------------
+select 
+	datetrunc(month,order_date) as order_date,
+	--month(order_date) as order_month,
+	sum(sales_amount) as total_sales,
+	count(distinct customer_key) as total_customers,
+	SUM(quantity) as total_quantity
+from gold.fact_sales
+where order_date is not null 
+group by datetrunc(month,order_date) 
+order by datetrunc(month,order_date) ;
+--------------- use own format----------------------------
+select 
+	format(order_date,'yyyy-mmm') as order_date,
+	--month(order_date) as order_month,
+	sum(sales_amount) as total_sales,
+	count(distinct customer_key) as total_customers,
+	SUM(quantity) as total_quantity
+from gold.fact_sales
+where order_date is not null 
+group by format(order_date,'yyyy-mmm') 
+order by format(order_date,'yyyy-mmm');
+
+
+
+---------------------------------------running total over sale
+---calculate the total sales per month
+--- and the running total of sales over time 
+
+Select
+order_date,
+total_sales,
+--sum(total_sales) over (partition by order_date order by order_date) as running_total_sales
+sum(total_sales) over (order by order_date) as running_total_sales,
+avg(avg_price) over (order by order_date) as moving_average_price
+---window function
+from
+(
+	select 
+		datetrunc(YEAR,order_date) as order_date,	
+		SUM(sales_amount) AS total_sales,
+		avg(price) as avg_price
+	from gold.fact_sales
+	where order_date is not null
+	group by datetrunc(YEAR,order_date)
+	--order by datetrunc(month,order_date)
+)t

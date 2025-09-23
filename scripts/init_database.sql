@@ -956,3 +956,26 @@ Select
 	concat(round((cast(total_sales as float)/sum(total_sales) over()) *100,2), '%') as percentage_of_total
 from category_sales
 order by total_sales DESC
+
+---------------------------------------------- Data Segmentation
+---- data segmentation ----
+--Segment products into cost ranges and count	how many products fall into each segment 
+With Product_Segment as 
+(
+	select
+	product_key,
+	product_name,
+	cost,
+	case when cost < 100 then 'Below 100' 
+		 when cost between 100 and 500 then '100-500'
+		 when cost between 500 and 1000 then '500-1000'
+		 Else 'Above 1000'
+	End cost_range
+	from gold.dim_products
+)
+select
+cost_range,
+count(product_key) as total_products
+from Product_Segment
+group by cost_range
+Order by total_products DESC

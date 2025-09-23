@@ -896,7 +896,7 @@ from
 	--order by datetrunc(month,order_date)
 )t
 
------------------------------------- Year over Year Using CTE ---------------------------
+------------------------------------Performance analysis :  Year over Year Using CTE ---------------------------
 --analyze the yearly performance of products by comparing  their sales to both the average sales performance of the product
 -- and the previous year sales. 
 
